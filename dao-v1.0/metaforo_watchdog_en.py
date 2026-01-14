@@ -410,7 +410,7 @@ def process_option(option_id: int, option_name: str, thread_id: int, timestamp: 
                     "total weight(on chain, floored)": math.floor(total_weight_onchain),
                     "address": address,
                     "address weight(floored)": math.floor(item['Weight']),
-                    "need_review": need_review,
+                    "⚠️need_review": need_review,
                     "explorer_url": f"https://explorer.app5.org/address/{address}"
                 })
         else:
@@ -419,7 +419,7 @@ def process_option(option_id: int, option_name: str, thread_id: int, timestamp: 
                 "userid": userid,
                 "total weight(metaforo)": total_weight_metaforo,
                 "total weight(on chain, floored)": math.floor(total_weight_onchain),
-                "need_review": need_review,
+                "⚠️need_review": need_review,
                 "address": "",
                 "address weight(floored)": 0,
                 "explorer_url": ""
