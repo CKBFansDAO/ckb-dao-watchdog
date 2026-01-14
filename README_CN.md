@@ -19,11 +19,19 @@ CKB DAO Watchdog 是一套开源工具集，使社区成员能够独立验证 DA
 
 ```
 ckb-dao-watchdog/
+├── .gitignore                   # Git 忽略文件
+├── LICENSE                      # MIT 许可证
+├── README.md                    # 英文文档
+├── README_CN.md                 # 中文文档
+│
 ├── dao-v1.0/                    # DAO v1.0 (Metaforo) 审计工具
-│   ├── metaforo_watchdog_en.py  # 英文版
-│   └── metaforo_watchdog_cn.py  # 中文版
+│   ├── metaforo_watchdog_en.py  # 英文版脚本
+│   ├── metaforo_watchdog_cn.py  # 中文版脚本
+│   ├── README.md                # 详细英文指南
+│   └── README_CN.md             # 详细中文指南
 │
 └── dao-v1.1/                    # DAO v1.1 工具（即将推出）
+    └── README.md                # 即将推出通知
 ```
 
 ## 快速开始

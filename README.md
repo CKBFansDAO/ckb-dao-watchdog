@@ -19,11 +19,19 @@ CKB DAO Watchdog is a collection of open-source tools that enable community memb
 
 ```
 ckb-dao-watchdog/
+├── .gitignore                   # Git ignore file
+├── LICENSE                      # MIT License
+├── README.md                    # English documentation
+├── README_CN.md                 # Chinese documentation
+│
 ├── dao-v1.0/                    # DAO v1.0 (Metaforo) auditing tools
-│   ├── metaforo_watchdog_en.py  # English version
-│   └── metaforo_watchdog_cn.py  # Chinese version
+│   ├── metaforo_watchdog_en.py  # English version script
+│   ├── metaforo_watchdog_cn.py  # Chinese version script
+│   ├── README.md                # Detailed English guide
+│   └── README_CN.md             # Detailed Chinese guide
 │
 └── dao-v1.1/                    # DAO v1.1 tools (coming soon)
+    └── README.md                # Coming soon notice
 ```
 
 ## Quick Start
