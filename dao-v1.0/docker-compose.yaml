@@ -1,0 +1,14 @@
+services:
+  watchdog-cn:
+    build: .
+    entrypoint: ["python", "metaforo_watchdog_cn.py"]
+    volumes:
+      - ./vote_result:/app/vote_result
+    # Usage: docker-compose run watchdog-cn <url_or_id>
+
+  watchdog-en:
+    build: .
+    entrypoint: ["python", "metaforo_watchdog_en.py"]
+    volumes:
+      - ./vote_result:/app/vote_result
+    # Usage: docker-compose run watchdog-en <url_or_id>

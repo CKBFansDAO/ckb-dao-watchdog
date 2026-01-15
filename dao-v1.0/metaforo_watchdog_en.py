@@ -429,9 +429,13 @@ def process_option(option_id: int, option_name: str, thread_id: int, timestamp: 
     script_dir = os.path.dirname(os.path.abspath(__file__))
     # Filename format: vote_result_{thread_id}_{option_name}_{timestamp}
     safe_option_name = re.sub(r'[^\w\-]', '_', option_name)  # Replace special characters
-    json_path = os.path.join(script_dir, f"vote_result_{thread_id}_{safe_option_name}_{timestamp}.json")
-    csv_path = os.path.join(script_dir, f"vote_result_{thread_id}_{safe_option_name}_{timestamp}.csv")
+    json_path = os.path.join(script_dir, f"./vote_result/{thread_id}/{safe_option_name}_{timestamp}.json")
+    csv_path = os.path.join(script_dir, f"./vote_result/{thread_id}/{safe_option_name}_{timestamp}.csv")
     
+    # Ensure output directory exists
+    output_dir = os.path.dirname(json_path)
+    os.makedirs(output_dir, exist_ok=True)
+
     # Save JSON file
     with open(json_path, 'w', encoding='utf-8') as f:
         json.dump(export_data, f, ensure_ascii=False, indent=4)
@@ -439,7 +443,7 @@ def process_option(option_id: int, option_name: str, thread_id: int, timestamp: 
     
     # Save CSV file
     if export_data:
-        fieldnames = ["nickname", "userid", "total weight(metaforo)", "total weight(on chain, floored)", "need_review", "address", "address weight(floored)", "explorer_url"]
+        fieldnames = ["nickname", "userid", "total weight(metaforo)", "total weight(on chain, floored)", "⚠️need_review", "address", "address weight(floored)", "explorer_url"]
         with open(csv_path, 'w', newline='', encoding='utf-8') as f:
             writer = csv.DictWriter(f, fieldnames=fieldnames)
             writer.writeheader()

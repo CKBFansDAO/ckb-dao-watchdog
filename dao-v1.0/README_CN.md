@@ -40,21 +40,37 @@ python metaforo_watchdog_cn.py https://dao.ckb.community/thread/vot-ckb-integrat
 python metaforo_watchdog_cn.py 12551
 ```
 
+### Docker 使用方法
+
+你也可以使用 Docker 运行工具，无需在本地安装 Python 依赖。
+
+1. **拉取 Docker 镜像：**
+
+   ```bash
+   docker pull ghcr.io/ckbfansdao/ckb-dao-watchdog/dao-v1-0:main
+   ```
+
+2. **运行工具：**
+
+   ```bash
+   docker run -it --rm -v $(pwd)/vote_result:/app/vote_result ghcr.io/ckbfansdao/ckb-dao-watchdog/dao-v1-0:main metaforo_watchdog_cn.py <url_or_id>
+   ```
+
 ## 输出文件
 
 对于每个投票选项，工具会生成：
 
 ```
-vote_result_{thread_id}_{选项}_{时间戳}.json
-vote_result_{thread_id}_{选项}_{时间戳}.csv
+vote_result/{thread_id}/{选项}_{时间戳}.json
+vote_result/{thread_id}/{选项}_{时间戳}.csv
 ```
 
 示例：
 ```
-vote_result_66568_Yes_20260114220441.json
-vote_result_66568_Yes_20260114220441.csv
-vote_result_66568_No_20260114220441.json
-vote_result_66568_No_20260114220441.csv
+vote_result/66568/Yes_20260114220441.json
+vote_result/66568/Yes_20260114220441.csv
+vote_result/66568/No_20260114220441.json
+vote_result/66568/No_20260114220441.csv
 ```
 
 ## 输出字段说明
