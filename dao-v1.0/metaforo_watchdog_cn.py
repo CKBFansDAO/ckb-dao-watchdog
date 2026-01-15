@@ -468,7 +468,9 @@ def main():
         sys.exit(1)
 
     arg = sys.argv[1]
-    timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+    dt = datetime.now().astimezone()
+    offset = dt.strftime("%z")
+    timestamp = dt.strftime("%Y%m%d_%H%M%S") + f"(UTC+{int(offset[:3])})"
     
     # 判断输入是 URL 还是 option_id
     if arg.startswith("http"):
