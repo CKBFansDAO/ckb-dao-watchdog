@@ -164,7 +164,7 @@ def get_poll_options(thread_id: int):
             for opt in options:
                 print(f"  - {opt.get('html')} (ID: {opt.get('id')}, Voters: {opt.get('voters')}, Weight: {opt.get('weights')})")
             
-            return [{"id": opt.get("id"), "html": opt.get("html")} for opt in options], thread_id
+            return [{"id": opt.get("id"), "html": opt.get("html"), "weights": opt.get("weights", 0)} for opt in options], thread_id
         else:
             print(f"Failed to get thread info: {data.get('description')}")
             return None
@@ -310,7 +310,7 @@ def get_address_onchain_weight(address: str):
     # Convert shannon to CKB and floor the result
     return math.floor(total_capacity / (10**8))
 
-def process_option(option_id: int, option_name: str, thread_id: int, timestamp: str):
+def process_option(option_id: int, option_name: str, thread_id: int, timestamp: str, option_weight: int = 0):
     """
     Process a single poll option, fetch vote data and export files.
     
@@ -319,6 +319,7 @@ def process_option(option_id: int, option_name: str, thread_id: int, timestamp: 
         option_name: Poll option name (e.g. "Yes", "No")
         thread_id: Thread ID
         timestamp: Timestamp string
+        option_weight: Total weight for this option
     
     Returns:
         List of exported file paths [json_path, csv_path], None if failed
@@ -397,6 +398,9 @@ def process_option(option_id: int, option_name: str, thread_id: int, timestamp: 
         total_weight_metaforo = vote.get('weight', 0)
         total_weight_onchain = vote.get('weight_calc', 0)
         weight_list = vote.get('weight_list', [])
+        voted_at = vote.get('created_at', 'N/A')
+        if voted_at != 'N/A':
+            voted_at = f"{voted_at} (UTC+0)"
         
         need_review = total_weight_metaforo != math.floor(total_weight_onchain)
         
@@ -406,6 +410,7 @@ def process_option(option_id: int, option_name: str, thread_id: int, timestamp: 
                 export_data.append({
                     "nickname": nickname,
                     "userid": userid,
+                    "voted_at": voted_at,
                     "total weight(metaforo)": total_weight_metaforo,
                     "total weight(on chain, floored)": math.floor(total_weight_onchain),
                     "address": address,
@@ -417,6 +422,7 @@ def process_option(option_id: int, option_name: str, thread_id: int, timestamp: 
             export_data.append({
                 "nickname": nickname,
                 "userid": userid,
+                "voted_at": voted_at,
                 "total weight(metaforo)": total_weight_metaforo,
                 "total weight(on chain, floored)": math.floor(total_weight_onchain),
                 "⚠️need_review": need_review,
@@ -427,10 +433,10 @@ def process_option(option_id: int, option_name: str, thread_id: int, timestamp: 
     
     # Get script directory
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    # Filename format: vote_result_{thread_id}_{option_name}_{timestamp}
+    # Filename format: vote_result/{thread_id}/{option_name}_{weight}CKB_{timestamp}
     safe_option_name = re.sub(r'[^\w\-]', '_', option_name)  # Replace special characters
-    json_path = os.path.join(script_dir, f"./vote_result/{thread_id}/{safe_option_name}_{timestamp}.json")
-    csv_path = os.path.join(script_dir, f"./vote_result/{thread_id}/{safe_option_name}_{timestamp}.csv")
+    json_path = os.path.join(script_dir, f"./vote_result/{thread_id}/{safe_option_name}_{option_weight}CKB_{timestamp}.json")
+    csv_path = os.path.join(script_dir, f"./vote_result/{thread_id}/{safe_option_name}_{option_weight}CKB_{timestamp}.csv")
     
     # Ensure output directory exists
     output_dir = os.path.dirname(json_path)
@@ -443,7 +449,7 @@ def process_option(option_id: int, option_name: str, thread_id: int, timestamp: 
     
     # Save CSV file
     if export_data:
-        fieldnames = ["nickname", "userid", "total weight(metaforo)", "total weight(on chain, floored)", "⚠️need_review", "address", "address weight(floored)", "explorer_url"]
+        fieldnames = ["nickname", "userid", "voted_at", "total weight(metaforo)", "total weight(on chain, floored)", "⚠️need_review", "address", "address weight(floored)", "explorer_url"]
         with open(csv_path, 'w', newline='', encoding='utf-8') as f:
             writer = csv.DictWriter(f, fieldnames=fieldnames)
             writer.writeheader()
@@ -495,7 +501,8 @@ def main():
         for option in options:
             option_id = option["id"]
             option_name = option["html"]
-            files = process_option(option_id, option_name, thread_id, timestamp)
+            option_weight = option.get("weights", 0)
+            files = process_option(option_id, option_name, thread_id, timestamp, option_weight)
             if files:
                 all_files.extend(files)
         
@@ -513,7 +520,7 @@ def main():
             sys.exit(1)
         
         print(f"Starting vote verification for option ID: {option_id}\n")
-        process_option(option_id, str(option_id), option_id, timestamp)
+        process_option(option_id, str(option_id), option_id, timestamp, 0)
 
 
 if __name__ == "__main__":

@@ -61,16 +61,17 @@ python metaforo_watchdog_cn.py 12551
 对于每个投票选项，工具会生成：
 
 ```
-vote_result/{thread_id}/{选项}_{时间戳}.json
-vote_result/{thread_id}/{选项}_{时间戳}.csv
+vote_result/{thread_id}/{选项}_{权重}CKB_{时间戳}.json
+vote_result/{thread_id}/{选项}_{权重}CKB_{时间戳}.csv
 ```
 
 示例：
+
 ```
-vote_result/66568/Yes_20260114220441.json
-vote_result/66568/Yes_20260114220441.csv
-vote_result/66568/No_20260114220441.json
-vote_result/66568/No_20260114220441.csv
+vote_result/66568/Yes_63660826CKB_20260114_220441(UTC+8).json
+vote_result/66568/Yes_63660826CKB_20260114_220441(UTC+8).csv
+vote_result/66568/No_152820057CKB_20260114_220441(UTC+8).json
+vote_result/66568/No_152820057CKB_20260114_220441(UTC+8).csv
 ```
 
 ## 输出字段说明
@@ -79,11 +80,12 @@ vote_result/66568/No_20260114220441.csv
 |------|------|
 | `nickname` | 用户在 Metaforo 上的显示名称 |
 | `userid` | 用户的 Metaforo ID |
+| `voted_at` | 投票时间 (UTC+0) |
 | `total weight(metaforo)` | Metaforo 平台记录的权重 |
 | `total weight(on chain, floored)` | 根据链上 DAO 存款计算的权重 |
+| `⚠️need_review` | 如果权重不匹配则为 `true`（需要人工复核） |
 | `address` | CKB 地址（Neuron 或 PW Lock） |
 | `address weight(floored)` | 该地址的 DAO 存款权重 |
-| `need_review` | 如果权重不匹配则为 `true`（需要人工复核） |
 | `explorer_url` | 在 CKB Explorer 上查看地址的链接 |
 
 ## 权重计算方式
@@ -131,14 +133,14 @@ floor(total_weight_metaforo) ≠ floor(total_weight_on_chain)
 ## 输出示例
 
 ```bash
-aabbcc@192 ckb-dao-watchdog % /usr/local/bin/python3 /Users/aabbcc/Documents/nervos/code/github/ckbfans/ckb-dao-watchdog/dao-v1.0/metaforo_watchdog_cn.py 
+aabbcc@192 ckb-dao-watchdog % /usr/local/bin/python3 /Users/aabbcc/Documents/nervos/code/github/ckbfans/ckb-dao-watchdog/dao-v1.0/metaforo_watchdog_cn.py
 用法: python metaforo.dao.zh.py <metaforo_url>
 示例: python metaforo.dao.zh.py https://dao.ckb.community/thread/vot-ckb-integration-for-rosen-bridge-66568
 aabbcc@192 ckb-dao-watchdog % /usr/local/bin/python3 /Users/aabbcc/Documents/nervos/code/github/ckbfans/ckb-dao-watchdog/dao-v1.0/metaforo_watchdog_cn.py https://dao.ckb.community/thread/vot-ckb-integration-for-rosen-bridge-66568
 从 URL 解析得到 thread_id: 66568
 正在获取帖子 66568 的投票选项信息...
 找到 2 个投票选项:
-  - Yes (ID: 12551, 投票数: 10, 权重: 63660826)
+  - Yes (ID: 12551, 投票数: 15, 权重: 92994150)
   - No (ID: 12552, 投票数: 8, 权重: 152820057)
 
 开始处理所有 2 个投票选项...
@@ -149,11 +151,17 @@ aabbcc@192 ckb-dao-watchdog % /usr/local/bin/python3 /Users/aabbcc/Documents/ner
 ================================================================================
 正在获取投票列表第 1 页...
 正在获取投票列表第 2 页...
+正在获取投票列表第 3 页...
 已获取所有投票数据。
 
 --- 选项 [Yes] 初始投票数据 ---
 昵称            投票时间                        投票权重
 ------------------------------------------------------------
+5520.bit        2026-01-15 02:37:56     4205768
+Phroi           2026-01-15 00:19:35     400000
+Michiel         2026-01-14 19:31:26     1290000
+ckbfansyixiu    2026-01-15 02:35:37     4500000
+miteux          2026-01-14 17:42:03     18937556
 Methemeticz     2026-01-14 11:41:16     1996228
 JPD             2026-01-14 00:15:32     6378375
 Balliu          2026-01-13 21:40:28     586906
@@ -162,13 +170,100 @@ Pires           2026-01-13 11:51:56     38765432
 Neon            2026-01-12 17:17:16     100000
 phill           2026-01-12 06:40:17     1557056
 Knight          2026-01-11 01:12:54     1310305
-Logics21        2026-01-11 23:37:59     75892
-Ophiuchus       2026-01-13 23:08:53     9920000
+Logics21        2026-01-15 01:39:07     75892
+Ophiuchus       2026-01-14 23:43:25     9920000
 ------------------------------------------------------------
 
 开始获取选项 [Yes] 每个用户的链上权重...
 
-正在处理第 1/10 个用户: Methemeticz (ID: 51038)
+正在处理第 1/15 个用户: 5520.bit (ID: 29658)
+  正在查询用户 29658 绑定的地址...
+    已通过 web3_public_key (0x64619f4f...) 转换得到 PW Lock 地址
+    正在计算地址 ckb1qzda0cr08m8... 的链上权重...
+    地址 ckb1qzda0cr08m8... 的权重为: 2,006,666.00 CKB
+    正在计算地址 ckb1qzda0cr08m8... 的链上权重...
+    地址 ckb1qzda0cr08m8... 的权重为: 299,000.00 CKB
+    正在计算地址 ckb1qzda0cr08m8... 的链上权重...
+    地址 ckb1qzda0cr08m8... 的权重为: 300,102.00 CKB
+    正在计算地址 ckb1qzda0cr08m8... 的链上权重...
+    地址 ckb1qzda0cr08m8... 的权重为: 200,000.00 CKB
+    正在计算地址 ckb1qzda0cr08m8... 的链上权重...
+    地址 ckb1qzda0cr08m8... 的权重为: 200,000.00 CKB
+    正在计算地址 ckb1qzda0cr08m8... 的链上权重...
+    地址 ckb1qzda0cr08m8... 的权重为: 200,000.00 CKB
+    正在计算地址 ckb1qzda0cr08m8... 的链上权重...
+    地址 ckb1qzda0cr08m8... 的权重为: 200,000.00 CKB
+    正在计算地址 ckb1qzda0cr08m8... 的链上权重...
+    地址 ckb1qzda0cr08m8... 的权重为: 200,000.00 CKB
+    正在计算地址 ckb1qzda0cr08m8... 的链上权重...
+    地址 ckb1qzda0cr08m8... 的权重为: 200,000.00 CKB
+    正在计算地址 ckb1qzda0cr08m8... 的链上权重...
+    地址 ckb1qzda0cr08m8... 的权重为: 200,000.00 CKB
+    正在计算地址 ckb1qzda0cr08m8... 的链上权重...
+    地址 ckb1qzda0cr08m8... 的权重为: 200,000.00 CKB
+    正在计算地址 ckb1qzl58smqy32... 的链上权重...
+    地址 ckb1qzl58smqy32... 的权重为: 0.00 CKB
+  用户 29658 的链上总权重计算完成: 4,205,768.00 CKB
+  Metaforo 记录的权重: 4205768
+
+正在处理第 2/15 个用户: Phroi (ID: 46487)
+  正在查询用户 46487 绑定的地址...
+    正在计算地址 ckb1qzda0cr08m8... 的链上权重...
+    地址 ckb1qzda0cr08m8... 的权重为: 400,000.00 CKB
+  用户 46487 的链上总权重计算完成: 400,000.00 CKB
+  Metaforo 记录的权重: 400000
+
+正在处理第 3/15 个用户: Michiel (ID: 33832)
+  正在查询用户 33832 绑定的地址...
+    正在计算地址 ckb1qzda0cr08m8... 的链上权重...
+    地址 ckb1qzda0cr08m8... 的权重为: 1,290,000.00 CKB
+  用户 33832 的链上总权重计算完成: 1,290,000.00 CKB
+  Metaforo 记录的权重: 1290000
+
+正在处理第 4/15 个用户: ckbfansyixiu (ID: 35412)
+  正在查询用户 35412 绑定的地址...
+    已通过 web3_public_key (0xd7948acd...) 转换得到 PW Lock 地址
+    正在计算地址 ckb1qzda0cr08m8... 的链上权重...
+    地址 ckb1qzda0cr08m8... 的权重为: 0.00 CKB
+    正在计算地址 ckb1qzda0cr08m8... 的链上权重...
+    地址 ckb1qzda0cr08m8... 的权重为: 500,000.00 CKB
+    正在计算地址 ckb1qzda0cr08m8... 的链上权重...
+    地址 ckb1qzda0cr08m8... 的权重为: 500,000.00 CKB
+    正在计算地址 ckb1qzda0cr08m8... 的链上权重...
+    地址 ckb1qzda0cr08m8... 的权重为: 500,000.00 CKB
+    正在计算地址 ckb1qzda0cr08m8... 的链上权重...
+    地址 ckb1qzda0cr08m8... 的权重为: 500,000.00 CKB
+    正在计算地址 ckb1qzda0cr08m8... 的链上权重...
+    地址 ckb1qzda0cr08m8... 的权重为: 500,000.00 CKB
+    正在计算地址 ckb1qzda0cr08m8... 的链上权重...
+    地址 ckb1qzda0cr08m8... 的权重为: 500,000.00 CKB
+    正在计算地址 ckb1qzda0cr08m8... 的链上权重...
+    地址 ckb1qzda0cr08m8... 的权重为: 500,000.00 CKB
+    正在计算地址 ckb1qzda0cr08m8... 的链上权重...
+    地址 ckb1qzda0cr08m8... 的权重为: 500,000.00 CKB
+    正在计算地址 ckb1qzda0cr08m8... 的链上权重...
+    地址 ckb1qzda0cr08m8... 的权重为: 500,000.00 CKB
+    正在计算地址 ckb1qzda0cr08m8... 的链上权重...
+    地址 ckb1qzda0cr08m8... 的权重为: 0.00 CKB
+    正在计算地址 ckb1qzl58smqy32... 的链上权重...
+    地址 ckb1qzl58smqy32... 的权重为: 0.00 CKB
+  用户 35412 的链上总权重计算完成: 4,500,000.00 CKB
+  Metaforo 记录的权重: 4500000
+
+正在处理第 5/15 个用户: miteux (ID: 51047)
+  正在查询用户 51047 绑定的地址...
+    已通过 web3_public_key (0xcc3d176d...) 转换得到 PW Lock 地址
+    正在计算地址 ckb1qzda0cr08m8... 的链上权重...
+    地址 ckb1qzda0cr08m8... 的权重为: 12,939,805.00 CKB
+    正在计算地址 ckb1qzda0cr08m8... 的链上权重...
+    地址 ckb1qzda0cr08m8... 的权重为: 5,997,751.00 CKB
+    正在计算地址 ckb1qzl58smqy32... 的链上权重...
+    地址在 explorer 中未找到 (404): ckb1qzl58smqy32...
+    地址 ckb1qzl58smqy32... 的权重为: 0.00 CKB
+  用户 51047 的链上总权重计算完成: 18,937,556.00 CKB
+  Metaforo 记录的权重: 18937556
+
+正在处理第 6/15 个用户: Methemeticz (ID: 51038)
   正在查询用户 51038 绑定的地址...
     已通过 web3_public_key (0xd189954d...) 转换得到 PW Lock 地址
     正在计算地址 ckb1qzda0cr08m8... 的链上权重...
@@ -189,21 +284,21 @@ Ophiuchus       2026-01-13 23:08:53     9920000
   用户 51038 的链上总权重计算完成: 1,996,228.00 CKB
   Metaforo 记录的权重: 1996228
 
-正在处理第 2/10 个用户: JPD (ID: 34076)
+正在处理第 7/15 个用户: JPD (ID: 34076)
   正在查询用户 34076 绑定的地址...
     正在计算地址 ckb1qzda0cr08m8... 的链上权重...
     地址 ckb1qzda0cr08m8... 的权重为: 6,378,375.00 CKB
   用户 34076 的链上总权重计算完成: 6,378,375.00 CKB
   Metaforo 记录的权重: 6378375
 
-正在处理第 3/10 个用户: Balliu (ID: 51026)
+正在处理第 8/15 个用户: Balliu (ID: 51026)
   正在查询用户 51026 绑定的地址...
     正在计算地址 ckb1qzda0cr08m8... 的链上权重...
     地址 ckb1qzda0cr08m8... 的权重为: 586,906.00 CKB
   用户 51026 的链上总权重计算完成: 586,906.00 CKB
   Metaforo 记录的权重: 586906
 
-正在处理第 4/10 个用户: Byakuya (ID: 34079)
+正在处理第 9/15 个用户: Byakuya (ID: 34079)
   正在查询用户 34079 绑定的地址...
     正在计算地址 ckb1qzda0cr08m8... 的链上权重...
     地址 ckb1qzda0cr08m8... 的权重为: 1,188,788.00 CKB
@@ -217,7 +312,7 @@ Ophiuchus       2026-01-13 23:08:53     9920000
   用户 34079 的链上总权重计算完成: 2,970,632.00 CKB
   Metaforo 记录的权重: 2970632
 
-正在处理第 5/10 个用户: Pires (ID: 51020)
+正在处理第 10/15 个用户: Pires (ID: 51020)
   正在查询用户 51020 绑定的地址...
     已通过 web3_public_key (0xdccf37ba...) 转换得到 PW Lock 地址
     正在计算地址 ckb1qzda0cr08m8... 的链上权重...
@@ -228,7 +323,7 @@ Ophiuchus       2026-01-13 23:08:53     9920000
   用户 51020 的链上总权重计算完成: 38,765,432.00 CKB
   Metaforo 记录的权重: 38765432
 
-正在处理第 6/10 个用户: Neon (ID: 33888)
+正在处理第 11/15 个用户: Neon (ID: 33888)
   正在查询用户 33888 绑定的地址...
     已通过 web3_public_key (0xbff03d3d...) 转换得到 PW Lock 地址
     正在计算地址 ckb1qzda0cr08m8... 的链上权重...
@@ -238,7 +333,7 @@ Ophiuchus       2026-01-13 23:08:53     9920000
   用户 33888 的链上总权重计算完成: 100,000.00 CKB
   Metaforo 记录的权重: 100000
 
-正在处理第 7/10 个用户: phill (ID: 34020)
+正在处理第 12/15 个用户: phill (ID: 34020)
   正在查询用户 34020 绑定的地址...
     已通过 web3_public_key (0xe6b6d31e...) 转换得到 PW Lock 地址
     正在计算地址 ckb1qzda0cr08m8... 的链上权重...
@@ -250,7 +345,7 @@ Ophiuchus       2026-01-13 23:08:53     9920000
   用户 34020 的链上总权重计算完成: 1,557,056.00 CKB
   Metaforo 记录的权重: 1557056
 
-正在处理第 8/10 个用户: Knight (ID: 33997)
+正在处理第 13/15 个用户: Knight (ID: 33997)
   正在查询用户 33997 绑定的地址...
     已通过 web3_public_key (0xf107a1df...) 转换得到 PW Lock 地址
     正在计算地址 ckb1qzda0cr08m8... 的链上权重...
@@ -272,7 +367,7 @@ Ophiuchus       2026-01-13 23:08:53     9920000
   用户 33997 的链上总权重计算完成: 1,310,305.00 CKB
   Metaforo 记录的权重: 1310305
 
-正在处理第 9/10 个用户: Logics21 (ID: 50903)
+正在处理第 14/15 个用户: Logics21 (ID: 50903)
   正在查询用户 50903 绑定的地址...
     已通过 web3_public_key (0x43f56f5c...) 转换得到 PW Lock 地址
     正在计算地址 ckb1qzda0cr08m8... 的链上权重...
@@ -283,7 +378,7 @@ Ophiuchus       2026-01-13 23:08:53     9920000
   用户 50903 的链上总权重计算完成: 75,892.00 CKB
   Metaforo 记录的权重: 75892
 
-正在处理第 10/10 个用户: Ophiuchus (ID: 50987)
+正在处理第 15/15 个用户: Ophiuchus (ID: 50987)
   正在查询用户 50987 绑定的地址...
     正在计算地址 ckb1qzda0cr08m8... 的链上权重...
     地址在 explorer 中未找到 (404): ckb1qzda0cr08m8...
@@ -314,6 +409,99 @@ Ophiuchus       2026-01-13 23:08:53     9920000
 
 
 --- 选项 [Yes] 最终权重验证结果 ---
+
+================================================================================
+昵称: 5520.bit (ID: 29658)
+Metaforo 记录权重: 4,205,768.00
+计算出的链上总权重: 4,205,768.00
+----------------------------------------
+绑定的地址及各自权重:
+  - 地址: ckb1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsq2rz5408dth46e4fvk748pje9096y0zjtsc9m5nt
+    权重: 2,006,666.00 CKB
+  - 地址: ckb1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsq0sr3r3qpcwwug5u9cf4tx2hj9uffs3m5czz5kw0
+    权重: 299,000.00 CKB
+  - 地址: ckb1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqw5exx3zt8jqhx45vpl9lejsqjy5hs37xg2q5aqu
+    权重: 300,102.00 CKB
+  - 地址: ckb1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsq2tmu3g683we72naew0klg0ums32ymavds5hh5h0
+    权重: 200,000.00 CKB
+  - 地址: ckb1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqgj2cknw544ymdqzaspnf8kk3fmrhy92jga3m78x
+    权重: 200,000.00 CKB
+  - 地址: ckb1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsq02x39c9va47l8e90xmaf7nqvwsy3eancgk0trj4
+    权重: 200,000.00 CKB
+  - 地址: ckb1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqdak9quxxlk3qjlfmng6s5vhuyr749rr4s56a95y
+    权重: 200,000.00 CKB
+  - 地址: ckb1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsq2cc2tzhpm64pegam95s2nj59gs2umhc2qsaehrm
+    权重: 200,000.00 CKB
+  - 地址: ckb1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsq0hzzxa37qjsw9x0wr5tt5hyc62fdqu48gsxw9xj
+    权重: 200,000.00 CKB
+  - 地址: ckb1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqdje822v42jcj4z244ntfne52dhk7m4fhc0j0p4a
+    权重: 200,000.00 CKB
+  - 地址: ckb1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqw8zafpk2ue0ajumwe79989vjcye594a5gvgsnaa
+    权重: 200,000.00 CKB
+  - 地址: ckb1qzl58smqy32hnrq6vxjedcxe2fugvnz497h7yvwqvwel40uh4rltcqtyvx057ewukv73t66ksugjwx8p4nsk7dqkw409z
+    权重: 0.00 CKB
+
+================================================================================
+昵称: Phroi (ID: 46487)
+Metaforo 记录权重: 400,000.00
+计算出的链上总权重: 400,000.00
+----------------------------------------
+绑定的地址及各自权重:
+  - 地址: ckb1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqfhnyttkppqhkmdgt24f865mkfvxvphhpqh5pqm8
+    权重: 400,000.00 CKB
+
+================================================================================
+昵称: Michiel (ID: 33832)
+Metaforo 记录权重: 1,290,000.00
+计算出的链上总权重: 1,290,000.00
+----------------------------------------
+绑定的地址及各自权重:
+  - 地址: ckb1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqdzx545uffra6pzwn5schn5cfpns4nnfacvlc0kk
+    权重: 1,290,000.00 CKB
+
+================================================================================
+昵称: ckbfansyixiu (ID: 35412)
+Metaforo 记录权重: 4,500,000.00
+计算出的链上总权重: 4,500,000.00
+----------------------------------------
+绑定的地址及各自权重:
+  - 地址: ckb1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqfd92edamsr7xr5qjplppu3r8ppxdm86csznwssk
+    权重: 0.00 CKB
+  - 地址: ckb1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqglz4zvmddz4j0mlk2t78jzh85l2a2dnns2jfmz0
+    权重: 500,000.00 CKB
+  - 地址: ckb1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqflkpj0wp9svsnx38qskardf434nea8z5cyep8c8
+    权重: 500,000.00 CKB
+  - 地址: ckb1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqvtzjvwn2uej4ypn2ql92mn6te74cwarrs0rfqnc
+    权重: 500,000.00 CKB
+  - 地址: ckb1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqtkvqaq8vyadptalq247q929aq3e6h4kmsaspk6y
+    权重: 500,000.00 CKB
+  - 地址: ckb1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqfkmmupfafphz0lduszlha4uhracnrvecshspe03
+    权重: 500,000.00 CKB
+  - 地址: ckb1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsq0y226497e09cmry7wxgxakqj5xzhjmh8ggpjdvz
+    权重: 500,000.00 CKB
+  - 地址: ckb1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqtxzxyjju7vtdpklppn8wgtl45d4sjy5rsm54xur
+    权重: 500,000.00 CKB
+  - 地址: ckb1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqtl9t8x22z8q5gex08h77x64rk5ufvdryg6fr6s3
+    权重: 500,000.00 CKB
+  - 地址: ckb1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsq04kxv8w4sa09ryn5r8kwppqnzs8fuegrqt7dapy
+    权重: 500,000.00 CKB
+  - 地址: ckb1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqv7hhqh9rxljz7nj8yd4ewldkadklvepwgsnv9zm
+    权重: 0.00 CKB
+  - 地址: ckb1qzl58smqy32hnrq6vxjedcxe2fugvnz497h7yvwqvwel40uh4rltcqwhjj9vmq7k5p8tmud8gqtz9695zwyy0rs9jjc7z
+    权重: 0.00 CKB
+
+================================================================================
+昵称: miteux (ID: 51047)
+Metaforo 记录权重: 18,937,556.00
+计算出的链上总权重: 18,937,556.00
+----------------------------------------
+绑定的地址及各自权重:
+  - 地址: ckb1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsq24zycexj3jre8w3fsrlz9f0a5lalju5lc54cgnh
+    权重: 12,939,805.00 CKB
+  - 地址: ckb1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqvhujnsgm32cp8txwavprlpgmspptfyafsytus5a
+    权重: 5,997,751.00 CKB
+  - 地址: ckb1qzl58smqy32hnrq6vxjedcxe2fugvnz497h7yvwqvwel40uh4rltcqwv85tk6flk5aszmh72axxpecny0uzw8pc0njnuh
+    权重: 0.00 CKB
 
 ================================================================================
 昵称: Methemeticz (ID: 51038)
@@ -468,8 +656,8 @@ Metaforo 记录权重: 9,920,000.00
     权重: 920,000.00 CKB
 ================================================================================
 
-JSON 文件已保存至: /Users/aabbcc/Documents/nervos/code/github/ckbfans/ckb-dao-watchdog/dao-v1.0/vote_result_66568_Yes_20260114232429.json
-CSV 文件已保存至: /Users/aabbcc/Documents/nervos/code/github/ckbfans/ckb-dao-watchdog/dao-v1.0/vote_result_66568_Yes_20260114232429.csv
+JSON 文件已保存至: /Users/aabbcc/Documents/nervos/code/github/ckbfans/ckb-dao-watchdog/dao-v1.0/./vote_result/66568/Yes_92994150CKB_20260115_120459(UTC+8).json
+CSV 文件已保存至: /Users/aabbcc/Documents/nervos/code/github/ckbfans/ckb-dao-watchdog/dao-v1.0/./vote_result/66568/Yes_92994150CKB_20260115_120459(UTC+8).csv
 
 ================================================================================
 开始处理投票选项: No (ID: 12552)
@@ -486,9 +674,9 @@ wade            2026-01-13 12:20:19     17644454
 otioa           2026-01-13 05:12:52     24000000
 Juliann         2026-01-13 12:08:19     19933381
 MissGloria      2026-01-13 12:01:43     24000000
-kaixin          2026-01-14 14:05:12     30000000
+kaixin          2026-01-15 04:02:36     30000000
 22222bit        2026-01-14 01:32:59     22222
-KevinW          2026-01-14 00:34:06     20000000
+KevinW          2026-01-15 00:11:14     20000000
 ------------------------------------------------------------
 
 开始获取选项 [No] 每个用户的链上权重...
@@ -861,16 +1049,16 @@ Metaforo 记录权重: 20,000,000.00
     权重: 20,000,000.00 CKB
 ================================================================================
 
-JSON 文件已保存至: /Users/aabbcc/Documents/nervos/code/github/ckbfans/ckb-dao-watchdog/dao-v1.0/vote_result_66568_No_20260114232429.json
-CSV 文件已保存至: /Users/aabbcc/Documents/nervos/code/github/ckbfans/ckb-dao-watchdog/dao-v1.0/vote_result_66568_No_20260114232429.csv
+JSON 文件已保存至: /Users/aabbcc/Documents/nervos/code/github/ckbfans/ckb-dao-watchdog/dao-v1.0/./vote_result/66568/No_152820057CKB_20260115_120459(UTC+8).json
+CSV 文件已保存至: /Users/aabbcc/Documents/nervos/code/github/ckbfans/ckb-dao-watchdog/dao-v1.0/./vote_result/66568/No_152820057CKB_20260115_120459(UTC+8).csv
 
 ================================================================================
 所有投票选项处理完毕！
 共生成 4 个文件:
-  - /Users/aabbcc/Documents/nervos/code/github/ckbfans/ckb-dao-watchdog/dao-v1.0/vote_result_66568_Yes_20260114232429.json
-  - /Users/aabbcc/Documents/nervos/code/github/ckbfans/ckb-dao-watchdog/dao-v1.0/vote_result_66568_Yes_20260114232429.csv
-  - /Users/aabbcc/Documents/nervos/code/github/ckbfans/ckb-dao-watchdog/dao-v1.0/vote_result_66568_No_20260114232429.json
-  - /Users/aabbcc/Documents/nervos/code/github/ckbfans/ckb-dao-watchdog/dao-v1.0/vote_result_66568_No_20260114232429.csv
+  - /Users/aabbcc/Documents/nervos/code/github/ckbfans/ckb-dao-watchdog/dao-v1.0/./vote_result/66568/Yes_92994150CKB_20260115_120459(UTC+8).json
+  - /Users/aabbcc/Documents/nervos/code/github/ckbfans/ckb-dao-watchdog/dao-v1.0/./vote_result/66568/Yes_92994150CKB_20260115_120459(UTC+8).csv
+  - /Users/aabbcc/Documents/nervos/code/github/ckbfans/ckb-dao-watchdog/dao-v1.0/./vote_result/66568/No_152820057CKB_20260115_120459(UTC+8).json
+  - /Users/aabbcc/Documents/nervos/code/github/ckbfans/ckb-dao-watchdog/dao-v1.0/./vote_result/66568/No_152820057CKB_20260115_120459(UTC+8).csv
 aabbcc@192 ckb-dao-watchdog % 
 ```
 
