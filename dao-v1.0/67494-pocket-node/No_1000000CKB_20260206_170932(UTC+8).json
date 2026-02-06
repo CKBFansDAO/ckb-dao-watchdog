@@ -1,0 +1,24 @@
+[
+    {
+        "nickname": "DaMengzi",
+        "userid": 50124,
+        "voted_at": "2026-02-06 06:55:21 (UTC+0)",
+        "total weight(metaforo)": 1000000,
+        "total weight(on chain, floored)": 1000000,
+        "address": "ckb1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsq054dxc0aaxvy5tq5t8g47vjjrur54kqtc42mw37",
+        "address weight(floored)": 0,
+        "⚠️need_review": false,
+        "explorer_url": "https://explorer.app5.org/address/ckb1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsq054dxc0aaxvy5tq5t8g47vjjrur54kqtc42mw37"
+    },
+    {
+        "nickname": "DaMengzi",
+        "userid": 50124,
+        "voted_at": "2026-02-06 06:55:21 (UTC+0)",
+        "total weight(metaforo)": 1000000,
+        "total weight(on chain, floored)": 1000000,
+        "address": "ckb1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqwga7c0hkqz000rwtd78zq9a60c83axccqjc6x4y",
+        "address weight(floored)": 1000000,
+        "⚠️need_review": false,
+        "explorer_url": "https://explorer.app5.org/address/ckb1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqwga7c0hkqz000rwtd78zq9a60c83axccqjc6x4y"
+    }
+]
